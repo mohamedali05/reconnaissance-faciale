@@ -24,6 +24,8 @@ Im = I-(repmat(moyenne',1,M))' ;
 %calculate eigenfaces
 eigFaces = coeff ;
 
+
+% 
 Xcentered = score*coeff' ;
 Xcentered = Xcentered +(repmat(moyenne',1,M))' ;
 
