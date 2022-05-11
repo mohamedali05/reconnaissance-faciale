@@ -1,6 +1,6 @@
 clear ; close all ; 
 
-A = dir('reconnaissance-faciale/datase') ; 
+A = dir('dataset') ; 
 
 M = 10;
 % I = imread ([A(4).folder, '/' , A(4).name]) ; 
@@ -41,7 +41,7 @@ ef1 = [];
 for n = 1: 10
   temp1 = reshape(Xcentered(n,:),r,c);
   temp1 = histeq(temp1,255);
-  ef1= [ef1 temp1];
+  ef1= [ef1 temp2];
 
 end
 % 
