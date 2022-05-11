@@ -1,6 +1,6 @@
 clear ; close all ; 
 
-A = dir('dataset/eigenfaces') ; 
+A = dir('dataset') ; 
 
 M = 10;
 % I = imread ([A(4).folder, '/' , A(4).name]) ; 
