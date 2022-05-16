@@ -8,10 +8,9 @@ M = size(A,1)-2;
 
  for n=1:M
    im = imread ([A(2+n).folder, '/' , A(2+n).name, '/' ,'1.jpg']) ; 
-   im1=im;
+   im = im2double(rgb2gray(im)); 
    im=imresize(im,[200,200]);
   %I = imread(strcat(num2str(n),'.jpg')); %read image
-  im = im2double(rgb2gray(im)); % convert image to gray scale and then to double precision
   [r,c] = size(im); % get number of rows and columns in image
   I1(:,n) = im(:); % convert image to vector and store as column in matrix 
  end
@@ -21,44 +20,45 @@ M = size(A,1)-2;
 moyenne = mean(I,1); 
 %Placer origine au point de la moyenne pour chaque point
 %Im = I-(repmat(moyenne',1,M))' ;
-Im=I-repmat(moyenne,M,1);
+%Im=I-repmat(moyenne,M,1)  ;
 
-[coeff,score,latent,~,explained,mu] = pca(Im,'Centered',true);
+[coeff,score,latent,~,explained,mu] = pca(I,'Centered',false);
 %Donne les vecteurs propres, la projection de chaque image sur cette
 %ces vecteurs propres,explained: pourcentage de variance de chaque vecteur
 %propre 
 %calculate eigenfaces
 eigFaces = coeff ;
-
-%test
-%personne recherché
-n=6;
-numeroPhoto=2;
-imtest = imread ([A(2+n).folder, '/' , A(2+n).name, '/' ,num2str(numeroPhoto),'.jpg']) ;
-imtest=imresize(imtest,[200,200]);
-imtest = im2double(rgb2gray(imtest));
-imtest1(:,1)=imtest(:);
-weight=coeff'*(imtest1-mu);
-
-meilleuredistance=sum((weight-score(1,:)').^2);
-personneressemblant=1;
-for i=2:size(score,1)
-    distance=sum((weight-score(i,:)').^2);
-    if distance<meilleuredistance
-        meilleuredistance=distance;
-        personneressemblant=i;
-    end
-end
-
-%affichage
-
-figure;
-subplot(211)
-imshow(reshape(I1(:,personneressemblant),r,c));
-title('personne ressemblante');
-subplot(212)
-imshow(reshape(imtest1,r,c));
-title('personne recherché');
+save coeff 'coeff' ; save score 'score' ; save mu 'mu' ; save I1 'I1' ; save I 'I' ; 
+save r 'r' ; save c, 'c' ; 
+% test
+% personne recherché
+% n=4 ;
+% numeroPhoto=2 ;
+% imtest = imread ([A(2+n).folder, '/' , A(2+n).name, '/' ,num2str(numeroPhoto),'.jpg']) ;
+% imtest=imresize(imtest,[200,200]);
+% imtest = im2double(rgb2gray(imtest));
+% imtest1(:,1)=imtest(:);
+% weight=coeff'*(imtest1-mu');
+% 
+% meilleuredistance=sum((weight-score(1,:)').^2);
+% personneressemblant=1;
+% for i=2:size(score,1)
+%     distance=sum((weight-score(i,:)').^2);
+%     if distance<meilleuredistance
+%         meilleuredistance=distance;
+%         personneressemblant=i;
+%     end
+% end
+% 
+% %affichage
+% 
+% figure;
+% subplot(211)
+% imshow(reshape(I1(:,personneressemblant),r,c));
+% title('personne ressemblante');
+% subplot(212)
+% imshow(reshape(imtest1,r,c));
+% title('personne recherché');
 
 
 % Xcentered = score*coeff' ;
