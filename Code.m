@@ -20,9 +20,10 @@ M = size(A,1)-2;
 moyenne = mean(I,1); 
 %Placer origine au point de la moyenne pour chaque point
 %Im = I-(repmat(moyenne',1,M))' ;
-%Im=I-repmat(moyenne,M,1)  ;
+% jsp=repmat(moyenne,M,1);
+% Im=I-jsp  ;
 
-[coeff,score,latent,~,explained,mu] = pca(I,'Centered',false);
+[coeff,score,latent,~,explained,mu] = pca(I,'Centered',true) ;
 %Donne les vecteurs propres, la projection de chaque image sur cette
 %ces vecteurs propres,explained: pourcentage de variance de chaque vecteur
 %propre 
