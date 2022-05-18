@@ -36,7 +36,7 @@ end
 figure;
 subplot(211)
 imshow(reshape(I1(:,personneressemblant),r,c));
-title('personne ressemblante');
+title('personne ressemblante'+nomPhoto(personneressemblant));
 subplot(212)
 imshow(reshape(imtest1,r,c));
 title('personne recherché');
