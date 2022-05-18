@@ -40,6 +40,9 @@ for nbTestImage=3:(size(A,1)-2)
     match=[match [erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
 end
 
+pourcentage_reussite=100*reussi/test;
+pourcentage_reussite
+
 
 %affichage
 
