@@ -8,5 +8,5 @@ def = {'1'} ;
 
 TestImage  = inputdlg(prompt,dlg_title,num_lines,def);
 n =char(TestImage) ; 
- B = imread ([A(2+n).folder, '/' , n , .jpg]) ;
+ B = imread ([A(2+n).folder, '/' , n , '.jpg']) ;
 % imshow(B) ; 
