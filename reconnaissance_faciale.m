@@ -5,7 +5,7 @@ A = dir('database') ;
 eigFaces = coeff ;
 
 %personne recherché
-n=  ;
+n= 3 ;
 numeroPhoto= 2;
 imtest = imread ([A(2+n).folder, '/' , A(2+n).name, '/' ,num2str(numeroPhoto),'.jpg']) ;
 imtest=imresize(imtest,[200,200]);
