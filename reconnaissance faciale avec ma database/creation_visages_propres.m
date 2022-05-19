@@ -25,7 +25,7 @@ moyenne = mean(I,1);
 %Im = I-(repmat(moyenne',1,M))' ;
 %Im=I-repmat(moyenne,M,1)  ;
 
-[coeff,score,latent,~,explained,mu] = pca(I,'Centered',false);
+[coeff,score,latent,~,explained,mu] = pca(I,'Centered',true);
 %Donne les vecteurs propres, la projection de chaque image sur cette
 %ces vecteurs propres,explained: pourcentage de variance de chaque vecteur
 %propre 
