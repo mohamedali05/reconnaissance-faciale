@@ -13,7 +13,7 @@ tailleImageH=200;
 reussi=0;
 test=0;
 match=[];
-for nbTestImage=3:(size(A,1)-2)
+for nbTestImage=3:(size(A,1))
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
     imtest = imread(TestImage);
 
