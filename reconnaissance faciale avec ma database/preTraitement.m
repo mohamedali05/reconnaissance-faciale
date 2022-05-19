@@ -20,7 +20,7 @@ function [Ifinal, nomPhoto]=preTraitement(I,name,tailleImageL,tailleImageH)
     %améliorer contraste
     I1=imadjust(I1);
     I2=imadjust(I2);
-%     %Filtrage par gaussienne(selon test sert à rien)
+    %Filtrage par gaussienne(selon test sert à rien)
 %     I1=filter2(B,imadjust(I1));
 %     I2=filter2(B,imadjust(I2));
     Ifinal=[I(:) I1(:) I2(:)];
