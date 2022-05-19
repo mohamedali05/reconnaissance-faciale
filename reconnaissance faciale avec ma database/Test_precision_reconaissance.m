@@ -16,9 +16,12 @@ match=[];
 for nbTestImage=3:(size(A,1))
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
     imtest = imread(TestImage);
-
+    if ndims(imtest)==3
+       imtest = im2double(rgb2gray(imtest));
+    else
+       imtest = im2double(imtest);
+    end
     imtest=imresize(imtest,[tailleImageL,tailleImageH]);
-    imtest = im2double(rgb2gray(imtest));
     imtest1(:,1)=imtest(:);
     weight= coeff'*(imtest1-mu');
 
