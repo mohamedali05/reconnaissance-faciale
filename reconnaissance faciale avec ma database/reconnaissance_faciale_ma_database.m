@@ -7,7 +7,7 @@ eigFaces = coeff ;
 %personne recherché
 TestDatabasePath = uigetdir('D:\Program Files\MATLAB\R2006a\work', 'Select test database path');
 
-prompt = {'Enter test image name (a number between 1 to 10):'};
+prompt = {'Enter the name of the image you want to test:'};
 dlg_title = 'Input of PCA-Based Face Recognition System';
 num_lines= 1;
 def = {'1'} ; 
@@ -36,7 +36,7 @@ end
 figure;
 subplot(211)
 imshow(reshape(I1(:,personneressemblant),r,c));
-title('personne ressemblante'+nomPhoto(personneressemblant));
+title('personne ressemblante : '+nomPhoto(personneressemblant));
 subplot(212)
 imshow(reshape(imtest1,r,c));
 title('personne recherché');
