@@ -9,12 +9,11 @@ function [Ifinal, nomPhoto]=preTraitement(I,name,tailleImageL,tailleImageH)
     I1=I;
     I2=I;
     %Filtrage par gaussienne(selon test sert à rien)
-    %I=filter2(B,imadjust(I));
-    I=imgaussfilt(I);
+    %I=filter2(B,I);
+    %I=imgaussfilt(I,2);
     %améliorer contraste
-    I=imadjust(I);
-%     I1=imadjust(I);
-%     I2=imadjust(II);
+    %I=imadjust(I);
+
     %Changement luminosité
     if mean(I(:))<85/255
         I1=I+mean(I(:));
@@ -26,7 +25,8 @@ function [Ifinal, nomPhoto]=preTraitement(I,name,tailleImageL,tailleImageH)
         I1=I-mean(I(:))/2;
         I2=I-mean(I(:))/4;
     end
-    
+    I1=imadjust(I1);
+    I2=imadjust(I2);
     
     Ifinal=[I(:) I1(:) I2(:)];
     nomPhoto=[];
