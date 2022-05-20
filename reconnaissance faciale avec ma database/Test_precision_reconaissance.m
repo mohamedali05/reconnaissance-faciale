@@ -22,6 +22,7 @@ for nbTestImage=3:(size(A,1))
        imtest = im2double(imtest);
     end
     imtest=imresize(imtest,[tailleImageL,tailleImageH]);
+    imtest=imadjust(imtest);
     imtest1(:,1)=imtest(:);
     weight= coeff'*(imtest1-mu');
 
