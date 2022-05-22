@@ -1,7 +1,0 @@
-n=3;
-A = dir('trainingSet') ;
-B=1/9.*ones(3,3);
-im = imread ([A(2+n).folder, '/' , A(2+n).name]) ; 
-I1=filter2(B,im2double(rgb2gray(im)));
-subplot(211)
-imshow(I1);
