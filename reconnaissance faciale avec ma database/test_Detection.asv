@@ -36,18 +36,16 @@ if ~isempty(bbox)
         end
     end
     xEye=[];
-    yEye=[];
     for i=1:size(bboxPointsEye,1)
         videoFrame1 = imcrop(I, 'Rectangle', bboxPointsEye(i,:));
         figure; imshow(videoFrame1); title('Detected eyes');
         xEye=[xEye bboxPointsEye(i,1)+bboxPointsEye(i,3)/2];
-        yEye=[yEye bboxPointsEye(i,3)+bboxPointsEye(i,4)/2];;
     end
     if xEye<bbox(1,2)/2 && xEye~=bbox(1,1)+bbox(1,3)*60/200
         bbox(1,1)=xEye+bbox(1,3)*60/200;
     end
-    if  yEye~=bbox(1,2)+bbox(1,4)*50/200
-        bbox(1,1)=yEye+bbox(1,3)*50/200;
+    if  yEye~=bbox(1,1)+bbox(1,3)*60/200
+        bbox(1,1)=xEye+bbox(1,3)*60/200;
     end
     
     %x=bbox*60/200;
