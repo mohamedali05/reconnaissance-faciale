@@ -21,8 +21,12 @@ if ~isempty(bboxFace)
     end
     videoFrame2 = insertShape(Image, 'Rectangle', bboxFace);
     figure; imshow(videoFrame2); title('Detected face');
-    bboxFace(1,2)=bboxFace(1,2)-bboxFace(1,4)*1/8;
-    bboxFace(1,4)=bboxFace(1,4)*9/8;
+    %Augmente le rectangle de la bbox
+%     bboxFace(1,2)=bboxFace(1,2)-bboxFace(1,4)*1/8;
+%     bboxFace(1,4)=bboxFace(1,4)*9/8;
+%     
+%     bboxFace(1,1)=bboxFace(1,1)-bboxFace(1,3)*1/8;
+%     bboxFace(1,3)=bboxFace(1,3)*9/8;
     I=rgb2gray(imcrop(videoFrame2,bboxFace(1,:)));
     figure
     imshow(I);
@@ -44,11 +48,21 @@ if ~isempty(bboxFace)
         yEye=[yEye bboxPointsEye(i,2)+bboxPointsEye(i,4)/2];
     end
     for i=1:size(xEye,1)
-        if xEye<bboxFace(1,2)/2 && xEye~=bboxFace(1,1)+bboxFace(1,3)*60/200
-            bboxFace(1,1)=xEye-bboxFace(1,3)*60/200;
+        if xEye(1)<bboxFace(1,3)/2
+            if xEye(1)~=bboxFace(1,3)*60/200
+                bboxFace(1,1)=bboxFace(1,1)+xEye(1)-bboxFace(1,3)*60/200;
+            end
+            if  yEye(1)~=bboxFace(1,4)*50/200
+                bboxFace(1,2)=bboxFace(1,2)+yEye(1)-bboxFace(1,4)*70/200;
+            end
         end
-        if  yEye~=bboxFace(1,2)+bboxFace(1,4)*50/200
-            bboxFace(1,1)=yEye-bboxFace(1,3)*50/200;
+        if xEye(1)>bboxFace(1,3)/2
+            if xEye(1)~=bboxFace(1,3)*60/200
+                bboxFace(1,1)=bboxFace(1,1)+xEye(1)-bboxFace(1,3)*140/200;
+            end
+            if  yEye(1)~=bboxFace(1,4)*50/200
+                bboxFace(1,2)=bboxFace(1,2)+yEye(1)-bboxFace(1,4)*70/200;
+            end
         end
     end
     videoFrame3 = rgb2gray(imcrop(videoFrame2,bboxFace(1,:)));
