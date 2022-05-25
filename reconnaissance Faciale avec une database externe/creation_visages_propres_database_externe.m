@@ -5,21 +5,26 @@ A = dir('trainset') ;
 M = size(A,1)-2;
 %I = imread ([A(4).folder, '/' , A(4).name]) ; 
  %imshow(I) ; 
-
+tailleImageL=200;
+tailleImageH=200;
 nomPhoto=[];
+I1=[];
  for n=1:M
    im = imread ([A(2+n).folder, '/' , A(2+n).name]) ; 
   %I = imread(strcat(num2str(n),'.jpg')); %read image
-  [r,c] = size(im); % get number of rows and columns in image
-  I1(:,n) = im(:); % convert image to vector and store as column in matrix 
-  nomPhoto=[nomPhoto erase(convertCharsToStrings(A(2+n).name),'.gif')];
+   % get number of rows and columns in image
+  [I2,nom]=preTraitement(im,erase(convertCharsToStrings(A(2+n).name),'.gif'),tailleImageL,tailleImageH,false);
+  I1=[I1 I2];
+  nomPhoto=[nomPhoto nom];
+  c=tailleImageL;
+  r=tailleImageH;
  end
  I= double(I1');
 
 %moyenne de entre point dans chaque image
-moyenne = mean(I,1); 
+%moyenne = mean(I,1); 
 %Placer origine au point de la moyenne pour chaque point
-Im = I-(repmat(moyenne',1,M))' ;
+%Im = I-(repmat(moyenne',1,M))' ;
 
 [coeff,score,latent,~,explained,mu] = pca(I, 'Centered', true) ;
 %Donne les vecteurs propres, la projection de chaque image sur cette
@@ -27,7 +32,7 @@ Im = I-(repmat(moyenne',1,M))' ;
 %propre 
 %calculate eigenfaces
 eigFaces = coeff ;
-save ('constante/myfile.mat',  'coeff' , 'score' , 'mu', 'I1','I', 'r', 'c', 'Im', 'nomPhoto' ); 
+save ('constante/myfile.mat',  'coeff' , 'score' , 'mu', 'I1','I', 'r', 'c', 'nomPhoto' ); 
 
 Xcentered = score*coeff' ;
 

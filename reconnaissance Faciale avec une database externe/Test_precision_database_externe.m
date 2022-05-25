@@ -10,12 +10,14 @@ TestDatabasePath = uigetdir('D:\Program Files\MATLAB\R2006a\work', 'Select test 
 A = dir(TestDatabasePath) ;
 reussi=0;
 test=0;
+tailleImageL=200;
+tailleImageH=200;
 match=[];
 for nbTestImage=3:(size(A,1))
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
-    imtest = double(imread(TestImage)) ;
+    imtest = imread(TestImage);
 
-    imtest1(:,1)=imtest(:);
+    imtest1=proTraitement(imtest,tailleImageL,tailleImageH);
     weight= coeff'*(imtest1-mu');
 
     meilleuredistance= immse ( weight, score(1 , :)') ; 
@@ -27,13 +29,16 @@ for nbTestImage=3:(size(A,1))
             personneressemblant=i;
         end
     end
+    equal="false";
     name=regexp(erase(A(nbTestImage).name,'.gif'),'\.','split');
     if name(1)==nomPhoto(personneressemblant)
         reussi=reussi+1;
         %erase(A(nbTestImage).name,'.jpg')
+        equal="true";
     end
     test=test+1;
-    match=[match [erase(A(nbTestImage).name,'.gif');nomPhoto(personneressemblant)]];
+    match=[match [erase(A(nbTestImage).name,'.gif');nomPhoto(personneressemblant);equal]];
+    
 end
 
 pourcentage_reussite=100*reussi/test;
