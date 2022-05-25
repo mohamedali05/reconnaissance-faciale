@@ -10,20 +10,20 @@ Image=imadjust(Image);
 % Create a cascade detector object.
 faceDetector = vision.CascadeObjectDetector();
 % Run the face detector.
-bbox = step(faceDetector, Image);
+bboxFace = step(faceDetector, Image);
 
-if ~isempty(bbox)
+if ~isempty(bboxFace)
     
-    for i=1:size(bbox,1)
-        if bbox(i,3)>200 && bbox(i,4)>200
-            bboxPoints = bbox2points(bbox(1, :));
+    for i=1:size(bboxFace,1)
+        if bboxFace(i,3)>200 && bboxFace(i,4)>200
+            bboxPoints = bbox2points(bboxFace(1, :));
         end
     end
-    videoFrame2 = insertShape(Image, 'Rectangle', bbox);
-    figure; imshow(Image); title('Detected face');
-    bbox(1,2)=bbox(1,2)-bbox(1,4)*1/8;
-    bbox(1,4)=bbox(1,4)*9/8;
-    I=rgb2gray(imcrop(videoFrame2,bbox(1,:)));
+    videoFrame2 = insertShape(Image, 'Rectangle', bboxFace);
+    figure; imshow(videoFrame2); title('Detected face');
+    bboxFace(1,2)=bboxFace(1,2)-bboxFace(1,4)*1/8;
+    bboxFace(1,4)=bboxFace(1,4)*9/8;
+    I=rgb2gray(imcrop(videoFrame2,bboxFace(1,:)));
     figure
     imshow(I);
     I=imadjust(I);
@@ -31,7 +31,7 @@ if ~isempty(bbox)
     bboxEye = step(eyeDetector,I);
     bboxPointsEye=[];
     for i=1:size(bboxEye,1)
-        if bboxEye(i,3)>bbox(1,3)/6 && bboxEye(i,4)>bbox(1,4)/8
+        if bboxEye(i,3)>bboxFace(1,3)/6 && bboxEye(i,4)>bboxFace(1,4)/8
             bboxPointsEye = [bboxPointsEye ; bboxEye(i, :)];
         end
     end
@@ -41,15 +41,18 @@ if ~isempty(bbox)
         videoFrame1 = imcrop(I, 'Rectangle', bboxPointsEye(i,:));
         figure; imshow(videoFrame1); title('Detected eyes');
         xEye=[xEye bboxPointsEye(i,1)+bboxPointsEye(i,3)/2];
-        yEye=[yEye bboxPointsEye(i,3)+bboxPointsEye(i,4)/2];;
+        yEye=[yEye bboxPointsEye(i,2)+bboxPointsEye(i,4)/2];
     end
-    if xEye<bbox(1,2)/2 && xEye~=bbox(1,1)+bbox(1,3)*60/200
-        bbox(1,1)=xEye+bbox(1,3)*60/200;
+    for i=1:size(xEye,1)
+        if xEye<bboxFace(1,2)/2 && xEye~=bboxFace(1,1)+bboxFace(1,3)*60/200
+            bboxFace(1,1)=xEye-bboxFace(1,3)*60/200;
+        end
+        if  yEye~=bboxFace(1,2)+bboxFace(1,4)*50/200
+            bboxFace(1,1)=yEye-bboxFace(1,3)*50/200;
+        end
     end
-    if  yEye~=bbox(1,2)+bbox(1,4)*50/200
-        bbox(1,1)=yEye+bbox(1,3)*50/200;
-    end
-    
+    videoFrame3 = rgb2gray(imcrop(videoFrame2,bboxFace(1,:)));
+    figure; imshow(videoFrame3); title('Detected face');
     %x=bbox*60/200;
     %espace inter yeux 80 sinon 60
 %     mouthDetector = vision.CascadeObjectDetector('mouth');
