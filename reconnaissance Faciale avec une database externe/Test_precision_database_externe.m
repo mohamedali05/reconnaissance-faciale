@@ -17,8 +17,8 @@ for nbTestImage=3:(size(A,1))
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
     imtest = imread(TestImage);
 
-    imtest1=proTraitement(imtest,tailleImageL,tailleImageH);
-    weight= coeff'*(imtest1-mu');
+    imtest1=proTraitement(imtest);
+    weight= coeff'*(imtest1-moyenne');
 
     meilleuredistance= immse ( weight, score(1 , :)') ; 
     personneressemblant=1;
