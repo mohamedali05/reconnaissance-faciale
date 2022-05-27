@@ -5,21 +5,21 @@ A = dir('trainset') ;
 M = size(A,1)-2;
 %I = imread ([A(4).folder, '/' , A(4).name]) ; 
  %imshow(I) ; 
-tailleImageL=200;
-tailleImageH=200;
+tailleImageL=243;
+tailleImageH=320;
 nomPhoto=[];
 I1=[];
  for n=1:M
    im = imread ([A(2+n).folder, '/' , A(2+n).name]) ; 
   %I = imread(strcat(num2str(n),'.jpg')); %read image
    % get number of rows and columns in image
-  [I2,nom]=preTraitement(im,erase(convertCharsToStrings(A(2+n).name),'.gif'),tailleImageL,tailleImageH,false);
+  [I2,nom]=preTraitement(im,erase(convertCharsToStrings(A(2+n).name),'.gif'),false);
   I1=[I1 I2];
   nomPhoto=[nomPhoto nom];
   c=tailleImageL;
   r=tailleImageH;
  end
- I= double(I1');
+ I= im2double(I1');
 
 %moyenne de entre point dans chaque image
 %moyenne = mean(I,1); 

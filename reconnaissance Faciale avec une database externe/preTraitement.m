@@ -1,4 +1,4 @@
-function [Ifinal, nomPhoto]=preTraitement(I,name,tailleImageL,tailleImageH,detect)
+function [Ifinal, nomPhoto]=preTraitement(I,name,detect)
     if ndims(I)==3
         I=im2double(rgb2gray(I)); 
     else
@@ -10,8 +10,7 @@ function [Ifinal, nomPhoto]=preTraitement(I,name,tailleImageL,tailleImageH,detec
         % Run the face detector.
         bbox = step(faceDetector, videoFrame);
     end
-    
-    I=imresize(I,[tailleImageL,tailleImageH]);
+
     B=1/9.*ones(3,3);
     I1=I;
     I2=I;

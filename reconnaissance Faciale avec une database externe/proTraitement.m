@@ -1,10 +1,9 @@
-function Ifinal=proTraitement(I,tailleImageL,tailleImageH)
+function Ifinal=proTraitement(I)
     if ndims(I)==3
         I=im2double(rgb2gray(I)); 
     else
         I=im2double(I);
     end
-    I=imresize(I,[tailleImageL,tailleImageH]);
     m=8;
     B=1/m^2.*ones(m,m);
     I1=I;
