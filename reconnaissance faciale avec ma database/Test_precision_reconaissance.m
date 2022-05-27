@@ -29,7 +29,8 @@ for nbTestImage=3:(size(A,1))
             personneressemblant=i;
         end
     end
-    name=regexp(erase(A(nbTestImage).name,'.jpg'),'\d','split');
+    name=regexp(erase(A(nbTestImage).name,'.jpg'),'\d','split') ; 
+
     if name(1)==nomPhoto(personneressemblant)
         reussi=reussi+1;
         %erase(A(nbTestImage).name,'.jpg')
