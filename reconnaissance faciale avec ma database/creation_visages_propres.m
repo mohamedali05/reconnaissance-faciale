@@ -21,18 +21,18 @@ I1=[];
 %I1=partition(0,7 0,3);
  I= I1'; 
 %moyenne de entre point dans chaque image
-%moyenne = mean(I,1); 
+moyenne = mean(I,1); 
 %Placer origine au point de la moyenne pour chaque point
-%Im = I-(repmat(moyenne',1,M))' ;
-%Im=I-repmat(moyenne,M,1)  ;
+Im = I-(repmat(moyenne',1,length (I(: , 1))))' ;
 
-[coeff,score,latent,~,explained,mu] = pca(I,'Centered',true);
+
+[coeff,score,latent,~,explained,mu] = pca(Im,'Centered',true);
 %Donne les vecteurs propres, la projection de chaque image sur cette
 %ces vecteurs propres,explained: pourcentage de variance de chaque vecteur
 %propre 
 %calculate eigenfaces
 eigFaces = coeff ;
-save ('constante/myfile.mat',  'coeff' , 'score' , 'mu', 'I1','I', 'r', 'c','nomPhoto' ); 
+save ('constante/myfile.mat',  'coeff' , 'score' , 'mu', 'I1','I', 'r', 'c','nomPhoto' , 'moyenne'); 
 
 
 

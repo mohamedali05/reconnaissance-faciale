@@ -28,16 +28,9 @@ for nbTestImage=3:(size(A,1))
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
     imtest = imread(TestImage);
 
-%     if ndims(imtest)==3
-%        imtest = im2double(rgb2gray(imtest));
-%     else
-%        imtest = im2double(imtest);
-%     end
-%     imtest=imresize(imtest,[tailleImageL,tailleImageH]);
-%     imtest=imadjust(imtest);
-%     imtest1(:,1)=imtest(:);
-    imtest1=proTraitement(imtest,tailleImageL,tailleImageH);
-    weight= coeff'*(imtest1-mu');
+    imtest1=proTraitement(imtest,tailleImageL,tailleImageH); %pro_traitement
+    weight= coeff'*(imtest1-moyenne');
+
     meilleuredistance= immse ( weight, score(1 , :)') ; 
     personneressemblant=1;
     for i=2:size(score,1)
