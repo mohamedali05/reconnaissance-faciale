@@ -11,7 +11,7 @@ function Ifinal=proTraitement(I,tailleImageL,tailleImageH)
     
     %Filtrage par gaussienne(selon test sert à rien)
     %I1=imgaussfilt(I1,2);
-    I1=filter2(B,I1);
+    %I1=filter2(B,I1);
     %Changement luminosité
 %     if mean(I1(:))<85/255
 %         I1=I1+mean(I1(:));

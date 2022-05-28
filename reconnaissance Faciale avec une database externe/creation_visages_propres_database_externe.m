@@ -11,6 +11,7 @@ nomPhoto=[];
 I1=[];
  for n=1:M
    im = imread ([A(2+n).folder, '/' , A(2+n).name]) ; 
+   im=Normalisation(im);
   %I = imread(strcat(num2str(n),'.jpg')); %read image
    % get number of rows and columns in image
   [I2,nom]=preTraitement(im,erase(convertCharsToStrings(A(2+n).name),'.gif'),tailleImageL,tailleImageH,false);

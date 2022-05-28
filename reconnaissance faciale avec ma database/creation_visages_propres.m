@@ -1,6 +1,6 @@
 clear ; close all ; 
 
-A = dir('trainingSet') ; 
+A = dir('trainingSet1') ; 
 
 M = size(A,1)-2;
 %I = imread ([A(4).folder, '/' , A(4).name]) ; 
@@ -11,10 +11,7 @@ tailleImageH=200;
 I1=[];
  for n=1:M
    im = imread ([A(2+n).folder, '/' , A(2+n).name]) ; 
-   %im = im2double(rgb2gray(im)); 
-   %im=imresize(im,[tailleImageL,tailleImageL]);
-   %nomPhoto=[nomPhoto erase(convertCharsToStrings(A(2+n).name),'.jpg')];
-  %I = imread(strcat(num2str(n),'.jpg')); %read image
+   im=Normalisation(im);
   [r,c] = size(im); % get number of rows and columns in image
   %I1(:,n) = im(:); % convert image to vector and store as column in matrix
   [I2,nom]=preTraitement(im,erase(convertCharsToStrings(A(2+n).name),'.jpg'),tailleImageL,tailleImageH);

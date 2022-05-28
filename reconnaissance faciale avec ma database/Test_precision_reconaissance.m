@@ -1,21 +1,33 @@
 clear ; close all ; clc ; 
 load constante/myfile.mat; 
-
-
-
 eigFaces = coeff ;
-
 %personne recherché
 TestDatabasePath = uigetdir('D:\Program Files\MATLAB\R2006a\work', 'Select test database path');
 A = dir(TestDatabasePath) ;
 tailleImageL=200;
 tailleImageH=200;
 reussi=0;
+reussi_normal=0;
+reussi_lunette=0;
+reussi_lunette_profil=0;
+reussi_masque=0;
+reussi_profil=0;
 test=0;
-match=[];
-for nbTestImage=3:(size(A,1))
+match_general=[];
+match_normal=[];
+match_lunette=[];
+match_lunette_profil=[];
+match_masque=[];
+match_profil=[];
+nbpersonne_normal=0;
+nbpersonne_profil=0;
+nbpersonne_masque=0;
+nbpersonne_lunette=0; 
+nbpersonne_lunette_profil=0;
+for nbTestImage=3:(size(A,1)) 
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
     imtest = imread(TestImage);
+
 %     if ndims(imtest)==3
 %        imtest = im2double(rgb2gray(imtest));
 %     else
@@ -26,31 +38,72 @@ for nbTestImage=3:(size(A,1))
 %     imtest1(:,1)=imtest(:);
     imtest1=proTraitement(imtest,tailleImageL,tailleImageH);
     weight= coeff'*(imtest1-mu');
-
     meilleuredistance= immse ( weight, score(1 , :)') ; 
     personneressemblant=1;
     for i=2:size(score,1)
-        distance=immse ( weight, score(i, :)');
+        distance=immse ( weight, score(i, :)'); % weight : pi et score : proj des images
         if distance<meilleuredistance
             meilleuredistance=distance;
             personneressemblant=i;
         end
     end
-    name=regexp(erase(A(nbTestImage).name,'.jpg'),'\d','split');
-    if name(1)==nomPhoto(personneressemblant)
+    name=regexp(erase(A(nbTestImage).name,'.jpg'),'\.','split');
+    name_sec=regexp(erase(A(nbTestImage).name,'.jpg'),'\d','split');
+    if  name_sec(1)==nomPhoto(personneressemblant)
         reussi=reussi+1;
         %erase(A(nbTestImage).name,'.jpg')
     end
+    if name(2)=="normal"
+       match_normal=[match_normal,[erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
+       nbpersonne_normal=nbpersonne_normal+1;
+       if name_sec(1)==nomPhoto(personneressemblant)
+           reussi_normal=reussi_normal+1;
+       end 
+    end
+    if name(2)=="lunette"
+       match_lunette=[match_lunette,[erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
+       nbpersonne_lunette=nbpersonne_lunette+1;
+       if name_sec(1)==nomPhoto(personneressemblant)
+           reussi_lunette=reussi_lunette+1;
+       end 
+    end
+    if name(2)=="lunette_profil"
+       match_lunette_profil=[ match_lunette_profil,[erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
+       nbpersonne_lunette_profil=nbpersonne_lunette_profil+1;
+       if name_sec(1)==nomPhoto(personneressemblant)
+           reussi_lunette_profil=reussi_lunette_profil+1;
+           end 
+    end
+    if name(2)=="masque"
+       match_masque=[match_masque,[erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
+       nbpersonne_masque=nbpersonne_masque+1;
+       if name_sec(1)==nomPhoto(personneressemblant)
+           reussi_masque=reussi_masque+1;
+       end 
+    end
+    if name(2)=="profil"
+       match_profil=[match_profil,[erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
+       nbpersonne_profil=nbpersonne_profil+1;
+       if name_sec(1)==nomPhoto(personneressemblant)
+           reussi_profil=reussi_profil+1;
+       end 
+    end
     test=test+1;
-    match=[match [erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
-end
-
+    match_general=[match_general,[erase(A(nbTestImage).name,'.jpg');nomPhoto(personneressemblant)]];
+    end
+pourcentage_reussite_normal=100*reussi_normal/nbpersonne_normal;
+pourcentage_reussite_lunette=100*reussi_lunette/nbpersonne_lunette;
+pourcentage_reussite_lunette_profil=100*reussi_lunette_profil/nbpersonne_lunette_profil;
+pourcentage_reussite_masque=100*reussi_masque/nbpersonne_masque;
+pourcentage_reussite_profil=100*reussi_profil/nbpersonne_profil;
 pourcentage_reussite=100*reussi/test;
-pourcentage_reussite
-
-
+pourcentage_reussite;
+pourcentage_reussite_normal;
+pourcentage_reussite_lunette;
+pourcentage_reussite_lunette_profil;
+pourcentage_reussite_masque;
+pourcentage_reussite_profil;
 %affichage
-
 % figure;
 % subplot(211)
 % imshow(reshape(I1(:,personneressemblant),r,c));
