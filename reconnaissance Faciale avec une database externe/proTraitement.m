@@ -1,16 +1,17 @@
-function Ifinal=proTraitement(I)
+function Ifinal=proTraitement(I,tailleImageL,tailleImageH)
     if ndims(I)==3
         I=im2double(rgb2gray(I)); 
     else
         I=im2double(I);
     end
-    m=8;
+    m=4;
     B=1/m^2.*ones(m,m);
-    I1=I;
     
+    
+    %I=imresize(I,[tailleImageL tailleImageH]);
+    I1=I;
     %Filtrage par gaussienne(selon test sert à rien)
-    %I1=imgaussfilt(I1,2);
-    %I1=filter2(B,I1);
+    I1=filter2(B,I1);
     %Changement luminosité
 %     if mean(I1(:))<85/255
 %         I1=I1+mean(I1(:));

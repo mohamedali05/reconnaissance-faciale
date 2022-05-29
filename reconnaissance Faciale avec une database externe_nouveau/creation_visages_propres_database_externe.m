@@ -23,7 +23,7 @@ moyenne = mean(I,1);
 %Placer origine au point de la moyenne pour chaque point
 Im = I-(repmat(moyenne',1,M))' ;
 
-[coeff,score,latent,~,explained,mu] = pca(Im, 'Centered', true) ;
+[coeff,score,latent,~,explained,mu] = pca(I, 'Centered', true) ;
 %Donne les vecteurs propres, la projection de chaque image sur cette
 %ces vecteurs propres,explained: pourcentage de variance de chaque vecteur
 %propre 

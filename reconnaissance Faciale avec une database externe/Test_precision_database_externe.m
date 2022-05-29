@@ -16,8 +16,7 @@ match=[] ;
 for nbTestImage=3:(size(A,1))
     TestImage = strcat(A(nbTestImage).folder,'\',A(nbTestImage).name);
     imtest = imread(TestImage);
-    imtest1=Normalisation(imtest);
-    figure; imshow(imtest1);
+    %imtest1=Normalisation(imtest);
     imtest1=proTraitement(imtest,tailleImageL,tailleImageH);
     weight= coeff'*(imtest1-mu');
 

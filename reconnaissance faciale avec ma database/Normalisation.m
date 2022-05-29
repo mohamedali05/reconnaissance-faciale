@@ -1,4 +1,5 @@
-function ImFinal=Normalisation(I)
+function [ImFinal ,normalise]=Normalisation(I)
+    normalise=false;
     if ndims(I)==3
         Image=im2double(rgb2gray(I));
     else
@@ -9,7 +10,7 @@ function ImFinal=Normalisation(I)
     % Create a cascade detector object.
     faceDetector = vision.CascadeObjectDetector();
     % Run the face detector.
-    bboxFace = step(faceDetector, ImageavecContraste);
+    bboxFace = step(faceDetector, Image);
     bboxFaceTrie=[];
     if ~isempty(bboxFace)
 
@@ -31,8 +32,6 @@ function ImFinal=Normalisation(I)
         %Image rogné du visage 
         I=im2double(imcrop(ImageavecContraste,bboxFaceTrie(1,:)));
 
-
-        I1=imadjust(I);
         I1=I;
         eyeDetector = vision.CascadeObjectDetector('EyePairBig');
         bboxSetEye = step(eyeDetector,I1);
@@ -88,7 +87,7 @@ function ImFinal=Normalisation(I)
                 bboxFaceTrie(1,1)=bboxFaceTrie(1,1)+xLeftEye(1)-bboxFaceTrie(1,3)*60/200;
                 bboxFaceTrie(1,3)=xRightEye*200/140;
                 bboxFaceTrie(1,2)=bboxFaceTrie(1,2)+yRightEye(1)-bboxFaceTrie(1,4)*80/200;
-
+                normalise=true;
             elseif ~isempty(xRightEye)
                 for i=1:size(xRightEye,1)
                     if xRightEye(1)~=bboxFace(1,3)*60/200
@@ -98,6 +97,7 @@ function ImFinal=Normalisation(I)
                         bboxFaceTrie(1,2)=bboxFaceTrie(1,2)+yRightEye(i)-bboxFaceTrie(1,4)*80/200;
                     end
                 end
+                normalise=true;
             elseif ~isempty(xLeftEye)
                 for i=1:size(xLeftEye,1)
                     if xLeftEye(1)~=bboxFaceTrie(1,3)*60/200
@@ -107,12 +107,11 @@ function ImFinal=Normalisation(I)
                         bboxFaceTrie(1,2)=bboxFaceTrie(1,2)+yLeftEye(i)-bboxFaceTrie(1,4)*80/200;
                     end
                 end
-
+                normalise=true;
             end
 
 
-            %ImFinal = imcrop(ImageavecContraste,bboxFaceTrie(1,:));
-
+   
         else
             eyeDetector = vision.CascadeObjectDetector('lefteye');
             bboxLeftEye = step(eyeDetector,I1);
@@ -153,7 +152,7 @@ function ImFinal=Normalisation(I)
                 bboxFaceTrie(1,1)=bboxFaceTrie(1,1)+xLeftEye(1)-bboxFaceTrie(1,3)*60/200;
                 bboxFaceTrie(1,3)=xRightEye*200/140;
                 bboxFaceTrie(1,2)=bboxFaceTrie(1,2)+yRightEye(1)-bboxFaceTrie(1,4)*80/200;
-
+                normalise=true;
             elseif ~isempty(xRightEye)
                 for i=1:size(xRightEye,1)
                     if xRightEye(1)~=bboxFace(1,3)*60/200
@@ -163,7 +162,7 @@ function ImFinal=Normalisation(I)
                         bboxFaceTrie(1,2)=bboxFaceTrie(1,2)+yRightEye(i)-bboxFaceTrie(1,4)*80/200;
                     end
                 end
-
+                normalise=true;
             elseif ~isempty(xLeftEye)
                 for i=1:size(xLeftEye,1)
                     if xLeftEye(1)~=bboxFaceTrie(1,3)*60/200
@@ -173,10 +172,10 @@ function ImFinal=Normalisation(I)
                         bboxFaceTrie(1,2)=bboxFaceTrie(1,2)+yLeftEye(i)-bboxFaceTrie(1,4)*80/200;
                     end
                 end
-
+                normalise=true;
             end
         end
-        ImFinal = imcrop(ImageavecContraste,bboxFaceTrie(1,:));
+        ImFinal = imcrop(Image,bboxFaceTrie(1,:));
    
     else
         ImFinal=Image;
